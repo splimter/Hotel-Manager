@@ -1,0 +1,228 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ihm2;
+
+//import BorderLayout;
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ *
+ * @author splimter
+ */
+public class Tp1 extends JFrame {
+
+    JLabel jLabel1 = new JLabel();
+    JLabel jLabel2 = new JLabel();
+    JLabel jLabel3 = new JLabel();
+    JLabel jLabel4 = new JLabel();
+    JPanel color1 = new JPanel();
+    JPanel color2 = new JPanel();
+    JPanel color3 = new JPanel();
+    JPanel zone = new JPanel();
+    JComboBox colorSelector = new JComboBox<>();
+    JButton colorDefault = new JButton();
+    JButton jButton1 = new JButton();
+
+    public Tp1() {
+        super("Exercice 1");
+        setLayout(new BorderLayout());
+////        Container pane = this.getContentPane();
+////        pane.add(new JLabel("Chose a Color..."), BorderLayout.PAGE_START);
+////        pane.add(new ColorLbl(), BorderLayout.LINE_START);
+////        //pane.add(new JLabel("Color 1"), BorderLayout.LINE_START);
+////        //pane.add(new JLabel("Color 2"), BorderLayout.LINE_START);
+////        //pane.add(new JLabel("Color 3"), BorderLayout.LINE_START);
+        setSize(480, 480);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TP1 - Couleurs");
+        setLocationRelativeTo(null);
+
+        jLabel1.setFont(new Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setText("Choisir une couleur...");
+
+        jLabel2.setText("Couleur 1");
+
+        jLabel3.setText("Couleur 2");
+
+        jLabel4.setText("Couleur 3");
+
+        color1.setBackground(new Color(255, 255, 51));
+        color1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                color1MouseEntered(evt);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                color1MouseExited(evt);
+            }
+        });
+
+        GroupLayout color1Layout = new GroupLayout(color1);
+        color1.setLayout(color1Layout);
+        color1Layout.setHorizontalGroup(
+                color1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        color1Layout.setVerticalGroup(
+                color1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        color2.setBackground(new Color(255, 153, 0));
+        color2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                color2MouseEntered(evt);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                color2MouseExited(evt);
+            }
+        });
+
+        GroupLayout color2Layout = new GroupLayout(color2);
+        color2.setLayout(color2Layout);
+        color2Layout.setHorizontalGroup(
+                color2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        color2Layout.setVerticalGroup(
+                color2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        color3.setBackground(new Color(153, 0, 102));
+        color3.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                color3MouseEntered(evt);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                color3MouseExited(evt);
+            }
+        });
+
+        GroupLayout color3Layout = new GroupLayout(color3);
+        color3.setLayout(color3Layout);
+        color3Layout.setHorizontalGroup(
+                color3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        color3Layout.setVerticalGroup(
+                color3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        zone.setBackground(new Color(255, 255, 255));
+
+        GroupLayout zoneLayout = new GroupLayout(zone);
+        zone.setLayout(zoneLayout);
+        zoneLayout.setHorizontalGroup(
+                zoneLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 333, Short.MAX_VALUE)
+        );
+        zoneLayout.setVerticalGroup(
+                zoneLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        colorSelector.setModel(new DefaultComboBoxModel<>(new String[]{"Vert", "Blue", "Rouge"}));
+        colorSelector.addItemListener((java.awt.event.ItemEvent evt) -> {
+//                colorSelectorItemStateChanged(evt);
+        });
+
+        colorDefault.setText("Par défaut");
+        colorDefault.addActionListener((java.awt.event.ActionEvent evt) -> {
+//                colorDefaultActionPerformed(evt);
+        });
+
+        jButton1.setText("Custom Color");
+        jButton1.addActionListener((java.awt.event.ActionEvent evt) -> {
+//                jButton1ActionPerformed(evt);
+        });
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel4)
+                .addComponent(jLabel3)
+                .addComponent(jLabel2));
+
+//        layout.setHorizontalGroup(
+//                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addGroup(layout.createSequentialGroup()
+//                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                                        .addGroup(layout.createSequentialGroup()
+//                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                                        .addGroup(layout.createSequentialGroup()
+//                                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                                                        .addComponent(jLabel1)
+//                                                                        .addGroup(layout.createSequentialGroup()
+//                                                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                                                                                        .addComponent(jLabel4)
+//                                                                                        .addComponent(jLabel3)
+//                                                                                        .addComponent(jLabel2))
+//                                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+//                                                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                                                                                        .addComponent(color1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                                                        .addComponent(color2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                                                        .addComponent(color3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+//                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                                                        .addComponent(jButton1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                                        .addComponent(colorSelector, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+//                                                        .addComponent(zone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+//                                        .addGroup(layout.createSequentialGroup()
+//                                                .addGap(159, 159, 159)
+//                                                .addComponent(colorDefault)))
+//                                .addContainerGap(36, Short.MAX_VALUE))
+//        );
+//        layout.setVerticalGroup(
+//                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addGroup(layout.createSequentialGroup()
+//                                .addComponent(jLabel1)
+//                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                                .addComponent(color1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//                                        .addComponent(colorSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+//                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+//                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                        .addComponent(color2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                        .addComponent(jLabel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+//                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+//                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+//                                                .addComponent(jLabel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                                .addComponent(color3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+//                                        .addComponent(jButton1))
+//                                .addComponent(zone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+//                                .addComponent(colorDefault)
+//                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
+    }
+}
+
+class ColorLbl extends JPanel {
+
+    public ColorLbl() {
+        this.add(new JLabel("Color 1"));
+        this.add(new JLabel("Color 2"));
+        this.add(new JLabel("Color 3"));
+    }
+
+}
