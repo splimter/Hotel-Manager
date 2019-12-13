@@ -280,7 +280,6 @@ public class DBMan {
 
     }
 
-    
     public static void addRoom(String Type) throws SQLException {
 
         Statement stmt = null;
@@ -303,8 +302,49 @@ public class DBMan {
         }
 
     }
-
     
+    public static void addClient(String fname,String ciid,int roomId) throws SQLException{
+        Statement stmt = null;
+
+        // Add Clinet
+        String query = "insert into client (fname,ciid) values ("+sqlF(fname, 0)+sqlF(ciid, 1)+")";
+
+        try {
+            
+            stmt = con.createStatement();
+            int rs = stmt.executeUpdate(query);
+            if (rs == 0) {
+                System.out.println("Issue when adding user!");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        
+        //Get Client ID
+        int cid=0;
+        query = "select id from client where ciid=" + ciid;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                cid = rs.getInt("id");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+        
+        //Set Client to Room
+        query = "update room clientID="+cid+" where id="+roomId;
+        
+    }
+
     public static void updateUser(String[] data,String id) throws SQLException {
         Statement stmt = null;
 

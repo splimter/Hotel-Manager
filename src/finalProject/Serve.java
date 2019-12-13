@@ -35,6 +35,7 @@ public class Serve extends javax.swing.JFrame {
         btnAddClient = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        lblErr = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,10 +47,17 @@ public class Serve extends javax.swing.JFrame {
         jLabel3.setText("Client CIID");
 
         btnAddClient.setText("Add");
+        btnAddClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddClientActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
 
         jLabel4.setText("Select Room");
+
+        lblErr.setText("jLabel5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,7 +73,8 @@ public class Serve extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtClientCIID, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(btnAddClient)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(lblErr))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,7 +94,9 @@ public class Serve extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblErr)
+                .addGap(11, 11, 11)
                 .addComponent(btnAddClient)
                 .addContainerGap())
         );
@@ -93,8 +104,26 @@ public class Serve extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean checkfield(){
+        if (txtClientName.getText().equals("")) {
+            lblErr.setText("Client Name must not be empty");
+        } else if (txtClientCIID.getText().equals("")) {
+            lblErr.setText("Client CIID must not be empty");
+        } else {
+            return true;
+        }
+        return false;
+    }
+    
+    private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
+        // TODO add your handling code here:
+        if(checkfield()){
+            
+        }
+        
+    }//GEN-LAST:event_btnAddClientActionPerformed
+
     /**
-     * @param args the command line arguments
      */
     public static void main() {
         /* Set the Nimbus look and feel */
@@ -121,10 +150,8 @@ public class Serve extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Serve().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Serve().setVisible(true);
         });
     }
 
@@ -135,6 +162,7 @@ public class Serve extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblErr;
     private javax.swing.JTextField txtClientCIID;
     private javax.swing.JTextField txtClientName;
     // End of variables declaration//GEN-END:variables

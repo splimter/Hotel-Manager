@@ -615,6 +615,7 @@ public class Main extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         txtFullName.setText(currentUser[0]);
         txtUser.setText(currentUser[1]);
         txtPWD.setText(currentUser[2]);
@@ -719,10 +720,8 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main(data).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main(data).setVisible(true);
         });
     }
 
