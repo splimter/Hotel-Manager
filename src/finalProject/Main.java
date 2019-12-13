@@ -259,6 +259,11 @@ public class Main extends javax.swing.JFrame {
         }
 
         btnAddC.setText("Add");
+        btnAddC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCActionPerformed(evt);
+            }
+        });
 
         btnUpdateC.setText("Update");
 
@@ -288,7 +293,7 @@ public class Main extends javax.swing.JFrame {
         panelOverviewLayout.setVerticalGroup(
             panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOverviewLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnAddC)
                     .addComponent(btnUpdateC)
@@ -679,6 +684,11 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddRoomActionPerformed
+
+    private void btnAddCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCActionPerformed
+        // TODO add your handling code here:
+        Serve.main();
+    }//GEN-LAST:event_btnAddCActionPerformed
 
     /**
      * @param data
