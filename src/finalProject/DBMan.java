@@ -374,6 +374,28 @@ public class DBMan {
         }
 
     }
+    
+    public static void updateRoom(String id,String type)throws SQLException{
+        Statement stmt = null;
+        String query = "update room set type=" + sqlF(type, 1) + " where id="+ sqlF(id, 1);
+        System.out.println(query);
+        try {
+            stmt = con.createStatement();
+            int rs = stmt.executeUpdate(query);
+            if (rs == 0) {
+                System.out.println("Issue when adding user!");
+            } else {
+                 System.out.println("done updating user!");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
 }
 
 class Emp {

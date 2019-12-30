@@ -5,6 +5,7 @@
  */
 package finalProject;
 
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -67,6 +68,17 @@ public class Main extends javax.swing.JFrame {
             model.addRow(rowdata);
         }
     }
+    
+    private void fillCBID(){
+        cbUroomId.removeAllItems();
+         try {
+            for (int i = 1; i <= DBMan.getAllRoom().size(); i++) 
+                cbUroomId.addItem(String.valueOf(i));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public Main(String[] data) {
         initComponents();
@@ -86,6 +98,8 @@ public class Main extends javax.swing.JFrame {
 
         fillTableEmp();
         fillTableRoom();
+        fillCBID();
+             
     }
 
     /**
@@ -137,6 +151,7 @@ public class Main extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cbAddRoomType = new javax.swing.JComboBox<>();
         btnAddRoom = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -376,9 +391,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cbUroomId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        cbUroomId.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbUroomIdItemStateChanged(evt);
+            }
+        });
 
         cbUroomType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Standart", "Lux", "Bussines", " " }));
+        cbUroomType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbUroomTypeItemStateChanged(evt);
+            }
+        });
 
         jLabel7.setText("Change Room Type");
 
@@ -406,6 +430,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("User Details");
+
         javax.swing.GroupLayout panelAddUserLayout = new javax.swing.GroupLayout(panelAddUser);
         panelAddUser.setLayout(panelAddUserLayout);
         panelAddUserLayout.setHorizontalGroup(
@@ -415,43 +441,54 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblErr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddUserLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(btnAddUpdateUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelAddUserLayout.createSequentialGroup()
                         .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelAddUserLayout.createSequentialGroup()
-                                .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCIID, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(cbRole, javax.swing.GroupLayout.Alignment.TRAILING, 0, 185, Short.MAX_VALUE)
-                                    .addComponent(txtPWD, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtUser, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtFullName, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addGroup(panelAddUserLayout.createSequentialGroup()
-                                .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cbAddRoomType, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE)
-                                    .addComponent(cbUroomId, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbUroomType, 0, 100, Short.MAX_VALUE)
-                                    .addComponent(btnAddRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                                    .addComponent(lblErr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddUserLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btnAddUpdateUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAddUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelAddUserLayout.createSequentialGroup()
+                                    .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtCIID, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(cbRole, javax.swing.GroupLayout.Alignment.TRAILING, 0, 185, Short.MAX_VALUE)
+                                        .addComponent(txtPWD, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txtUser, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txtFullName, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGroup(panelAddUserLayout.createSequentialGroup()
+                                    .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelAddUserLayout.createSequentialGroup()
+                                            .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(cbAddRoomType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(cbUroomId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(cbUroomType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnAddRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(panelAddUserLayout.createSequentialGroup()
+                                            .addGap(75, 75, 75)
+                                            .addComponent(jLabel8))
+                                        .addGroup(panelAddUserLayout.createSequentialGroup()
+                                            .addGap(54, 54, 54)
+                                            .addComponent(jLabel7)))
+                                    .addGap(23, 23, 23)))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddUserLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(115, 115, 115))))
         );
         panelAddUserLayout.setVerticalGroup(
             panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,9 +505,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbAddRoomType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddRoom))
-                .addGap(59, 59, 59)
+                .addGap(34, 34, 34)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addGap(16, 16, 16)
                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -681,6 +720,8 @@ public class Main extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             DBMan.addRoom(String.valueOf(cbAddRoomType.getSelectedItem()));
+            fillTableRoom();
+            fillCBID();
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -690,6 +731,25 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         Serve.main();
     }//GEN-LAST:event_btnAddCActionPerformed
+
+    private String selectedRoomID="1";
+    private void cbUroomTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbUroomTypeItemStateChanged
+        try {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+            DBMan.updateRoom(selectedRoomID, evt.getItem().toString());
+            fillCBID();
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbUroomTypeItemStateChanged
+
+    private void cbUroomIdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbUroomIdItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) 
+            selectedRoomID = evt.getItem().toString();
+       
+    }//GEN-LAST:event_cbUroomIdItemStateChanged
 
     /**
      * @param data
@@ -749,6 +809,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
