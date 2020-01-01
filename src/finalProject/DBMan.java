@@ -195,7 +195,32 @@ public class DBMan {
         data.add(new Client(_date[0], _date[1], _date[2]));
         return data;
     }
+    
+   public static String getClientFromRoom(int id) throws SQLException{
+       Statement stmt = null;
 
+        String query = "select * from room where id=" + sqlF(String.valueOf(id), 1) + " ;";
+
+        String cid = new String();
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                cid = rs.getString("clientID");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return cid;
+   }
+    
     public static boolean getEmp(String User)
             throws SQLException {
 

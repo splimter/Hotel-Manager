@@ -285,8 +285,13 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnUpdateC.setText("Update");
+        btnUpdateC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateCActionPerformed(evt);
+            }
+        });
 
-        btnDelC.setText("Delete");
+        btnDelC.setText("release");
 
         btnRefreshTable.setText("Refresh");
         btnRefreshTable.addActionListener(new java.awt.event.ActionListener() {
@@ -737,7 +742,7 @@ public class Main extends javax.swing.JFrame {
 
     private void btnAddCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCActionPerformed
         // TODO add your handling code here:
-        Serve.main();
+        Serve.main(0);
     }//GEN-LAST:event_btnAddCActionPerformed
 
     private String selectedRoomID = "1";
@@ -767,6 +772,12 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRefreshTableActionPerformed
+
+    private void btnUpdateCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCActionPerformed
+        String value = tableRooms.getModel().getValueAt(tableRooms.getSelectedRow(), 0).toString();
+        Serve.main(Integer.valueOf(value));
+        System.out.println("selected: "+value);
+    }//GEN-LAST:event_btnUpdateCActionPerformed
 
     /**
      * @param data

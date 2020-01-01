@@ -8,6 +8,7 @@ package finalProject;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,13 +31,33 @@ public class Serve extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Creates new form Serve
-     */
-    public Serve() {
+    private Client client;
+    private String cid;
+
+    public Serve(int id) {
+        
         initComponents();
         this.setLocationRelativeTo(null);
         fillCBID();
+        
+        if (id != 0) {
+            cbUroomId.setSelectedIndex(id);
+            try {
+                cid = DBMan.getClientFromRoom(id);
+                client = DBMan.getClient(Integer.valueOf(cid)).get(0);
+            } catch (SQLException ex) {
+                Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            txtClientName.setText(client.clientName);
+            txtClientCIID.setText(client.clientCIID);
+            try {
+                JDate.setDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(client.reservationDate));
+            } catch (ParseException ex) {
+                Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }
 
     /**
@@ -191,20 +212,23 @@ public class Serve extends javax.swing.JFrame {
                 JDate.getDate().getHours(), JDate.getDate().getMinutes(), JDate.getDate().getSeconds()
         );
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        sdf.format(date);
+
         String[] data = new String[]{
             txtClientName.getText(),
             txtClientCIID.getText(),
             date.toLocaleString().replace(".", "")
         };
-        
+
         if (checkfield()) {
             try {
                 DBMan.addClient(data, cbUroomId.getSelectedItem().toString());
             } catch (SQLException ex) {
                 Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
-            }                 
+            }
         }
-         
+
     }//GEN-LAST:event_btnAddClientActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -220,8 +244,7 @@ public class Serve extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnClearClientActionPerformed
 
-  
-    public static void main() {
+    public static void main(int id) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -247,7 +270,7 @@ public class Serve extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Serve().setVisible(true);
+            new Serve(id).setVisible(true);
         });
     }
 
