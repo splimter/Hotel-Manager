@@ -18,11 +18,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     private ArrayList<Emp> emp = new ArrayList<>();
     private ArrayList<Room> room = new ArrayList<>();
+    private ArrayList<Client> client = new ArrayList<>();
+
     private DefaultTableModel model;
     Object[] rowdata;
     private String idFromUserTab;
@@ -50,32 +49,32 @@ public class Main extends javax.swing.JFrame {
 
     }
 
-    private void fillTableRoom() {
+    private void fillTableRoom() throws SQLException {
         ((DefaultTableModel) tableRooms.getModel()).setRowCount(0);
-        try {
-            room = DBMan.getAllRoom();
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        room = DBMan.getAllRoom();
 
         model = (DefaultTableModel) tableRooms.getModel();
-        rowdata = new Object[4];
+        rowdata = new Object[5];
         for (int i = 0; i < room.size(); i++) {
             rowdata[0] = room.get(i).id;
             rowdata[1] = room.get(i).type;
-            rowdata[2] = room.get(i).clientID;
-            //rowdata[3] = room.get(i).reservationDate;
+            client = DBMan.getClient(room.get(i).clientID);
+            rowdata[2] = client.get(0).clientName;
+            rowdata[3] = client.get(0).clientCIID;
+            rowdata[4] = client.get(0).reservationDate;
 
             model.addRow(rowdata);
         }
     }
-    
-    private void fillCBID(){
+
+    private void fillCBID() {
         cbUroomId.removeAllItems();
-         try {
-            for (int i = 1; i <= DBMan.getAllRoom().size(); i++) 
+        try {
+            for (int i = 1; i <= DBMan.getAllRoom().size(); i++) {
                 cbUroomId.addItem(String.valueOf(i));
-            
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,9 +97,13 @@ public class Main extends javax.swing.JFrame {
         }
 
         fillTableEmp();
-        fillTableRoom();
+        try {
+            fillTableRoom();
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         fillCBID();
-             
+
     }
 
     /**
@@ -286,6 +289,11 @@ public class Main extends javax.swing.JFrame {
         btnDelC.setText("Delete");
 
         btnRefreshTable.setText("Refresh");
+        btnRefreshTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshTableActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelOverviewLayout = new javax.swing.GroupLayout(panelOverview);
         panelOverview.setLayout(panelOverviewLayout);
@@ -634,7 +642,6 @@ public class Main extends javax.swing.JFrame {
         panelWelcome.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
     private void btnAdminSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminSectionActionPerformed
         // TODO add your handling code here:
         panelOverview.setVisible(false);
@@ -655,7 +662,7 @@ public class Main extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         txtFullName.setText(currentUser[0]);
         txtUser.setText(currentUser[1]);
         txtPWD.setText(currentUser[2]);
@@ -733,13 +740,13 @@ public class Main extends javax.swing.JFrame {
         Serve.main();
     }//GEN-LAST:event_btnAddCActionPerformed
 
-    private String selectedRoomID="1";
+    private String selectedRoomID = "1";
     private void cbUroomTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbUroomTypeItemStateChanged
         try {
             if (evt.getStateChange() == ItemEvent.SELECTED) {
-            DBMan.updateRoom(selectedRoomID, evt.getItem().toString());
-            fillCBID();
-        }
+                DBMan.updateRoom(selectedRoomID, evt.getItem().toString());
+                fillCBID();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -747,10 +754,19 @@ public class Main extends javax.swing.JFrame {
 
     private void cbUroomIdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbUroomIdItemStateChanged
         // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) 
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
             selectedRoomID = evt.getItem().toString();
-       
+        }
+
     }//GEN-LAST:event_cbUroomIdItemStateChanged
+
+    private void btnRefreshTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTableActionPerformed
+        try {
+            fillTableRoom();
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRefreshTableActionPerformed
 
     /**
      * @param data

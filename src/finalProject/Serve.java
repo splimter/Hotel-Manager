@@ -220,8 +220,7 @@ public class Serve extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnClearClientActionPerformed
 
-    /**
-     */
+  
     public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -169,6 +169,33 @@ public class DBMan {
         return s;
     }
 
+    public static ArrayList<Client> getClient(int id) throws SQLException {
+        Statement stmt = null;
+
+        String query = "select * from client where id=" + id;
+
+        String[] _date = new String[3];
+        ArrayList<Client> data = new ArrayList<Client>();
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while (rs.next()) {
+                _date[0] = rs.getString("fname");
+                _date[1] = rs.getString("ciid");
+                _date[2] = rs.getString("reservationDate");
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        data.add(new Client(_date[0], _date[1], _date[2]));
+        return data;
+    }
+
     public static boolean getEmp(String User)
             throws SQLException {
 
@@ -285,7 +312,7 @@ public class DBMan {
 
         Statement stmt = null;
 
-        String query = "insert into room (type) values ("+sqlF(Type, 1)+")";
+        String query = "insert into room (type) values (" + sqlF(Type, 1) + ")";
 
         try {
             stmt = con.createStatement();
@@ -303,16 +330,16 @@ public class DBMan {
         }
 
     }
-    
-    public static void addClient(String[] data,String roomId) throws SQLException{
-       
+
+    public static void addClient(String[] data, String roomId) throws SQLException {
+
         Statement stmt = null;
 
         // Add clientID
         String query = "insert into client (fname,ciid,reservationDate) values ("
-                +sqlF(data[0], 0)
-                +sqlF(data[1], 0)
-                +sqlF(data[2], 1)+")";
+                + sqlF(data[0], 0)
+                + sqlF(data[1], 0)
+                + sqlF(data[2], 1) + ")";
         try {
             stmt = con.createStatement();
             int rs = stmt.executeUpdate(query);
@@ -327,9 +354,9 @@ public class DBMan {
                 stmt.close();
             }
         }
-        
+
         //Get Client ID
-        int cid=0;
+        int cid = 0;
         query = "select id from client where ciid=" + data[1];
         try {
             stmt = con.createStatement();
@@ -342,17 +369,17 @@ public class DBMan {
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
-        
+
         //Set Client to Room
-        query = "update room set clientID="+cid+" where id="+roomId;
-        System.out.println("q: "+query);
+        query = "update room set clientID=" + cid + " where id=" + roomId;
+        System.out.println("q: " + query);
         try {
             stmt = con.createStatement();
             int rs = stmt.executeUpdate(query);
             if (rs == 0) {
                 System.out.println("Issue when adding user!");
             } else {
-                 System.out.println("done updating user!");
+                System.out.println("done updating user!");
             }
 
         } catch (SQLException err) {
@@ -362,10 +389,10 @@ public class DBMan {
                 stmt.close();
             }
         }
-        
+
     }
 
-    public static void updateUser(String[] data,String id) throws SQLException {
+    public static void updateUser(String[] data, String id) throws SQLException {
         Statement stmt = null;
 
         String values = "fname=" + sqlF(data[0], 0)
@@ -374,7 +401,7 @@ public class DBMan {
                 + "role=" + sqlF(data[3], 0)
                 + "ciid=" + sqlF(data[4], 1);
 
-        String query = "update emp set " + values + " where id="+ id;
+        String query = "update emp set " + values + " where id=" + id;
         System.out.println(query);
         try {
             stmt = con.createStatement();
@@ -382,7 +409,7 @@ public class DBMan {
             if (rs == 0) {
                 System.out.println("Issue when adding user!");
             } else {
-                 System.out.println("done updating user!");
+                System.out.println("done updating user!");
             }
 
         } catch (SQLException err) {
@@ -394,10 +421,10 @@ public class DBMan {
         }
 
     }
-    
-    public static void updateRoom(String id,String type)throws SQLException{
+
+    public static void updateRoom(String id, String type) throws SQLException {
         Statement stmt = null;
-        String query = "update room set type=" + sqlF(type, 1) + " where id="+ sqlF(id, 1);
+        String query = "update room set type=" + sqlF(type, 1) + " where id=" + sqlF(id, 1);
         System.out.println(query);
         try {
             stmt = con.createStatement();
@@ -405,7 +432,7 @@ public class DBMan {
             if (rs == 0) {
                 System.out.println("Issue when adding user!");
             } else {
-                 System.out.println("done updating user!");
+                System.out.println("done updating user!");
             }
 
         } catch (SQLException err) {
@@ -431,17 +458,30 @@ class Emp {
         this.ciid = ciid;
         this.role = role;
     }
-    
+
 }
 
 class Room {
 
     int id, clientID;
     String type;
+
     public Room(int id, String type, int clientID) {
         this.id = id;
         this.type = type;
         this.clientID = clientID;
     }
-    
+
+}
+
+class Client {
+
+    String clientCIID, clientName, reservationDate;
+
+    public Client(String clientName, String clientCIID, String reservationDate) {
+        this.clientCIID = clientCIID;
+        this.clientName = clientName;
+        this.reservationDate = reservationDate;
+    }
+
 }
