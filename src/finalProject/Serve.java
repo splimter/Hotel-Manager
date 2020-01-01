@@ -5,11 +5,30 @@
  */
 package finalProject;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author splimter
  */
 public class Serve extends javax.swing.JFrame {
+
+    private void fillCBID() {
+        cbUroomId.removeAllItems();
+        try {
+            for (int i = 1; i <= DBMan.getAllRoom().size(); i++) {
+                cbUroomId.addItem(String.valueOf(i));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Creates new form Serve
@@ -17,6 +36,7 @@ public class Serve extends javax.swing.JFrame {
     public Serve() {
         initComponents();
         this.setLocationRelativeTo(null);
+        fillCBID();
     }
 
     /**
@@ -34,13 +54,15 @@ public class Serve extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtClientCIID = new javax.swing.JTextField();
         btnAddClient = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbUroomId = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         lblErr = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
         btnClearClient = new javax.swing.JButton();
+        JDate = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Add A Client To a Room");
@@ -55,8 +77,6 @@ public class Serve extends javax.swing.JFrame {
                 btnAddClientActionPerformed(evt);
             }
         });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
 
         jLabel4.setText("Select Room");
 
@@ -74,49 +94,71 @@ public class Serve extends javax.swing.JFrame {
             }
         });
 
+        JDate.setDateFormatString("dd/MM/yyyy HH:mm:ss");
+
+        jLabel5.setText("Chose Reservation Date");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtClientName)
-                    .addComponent(txtClientCIID, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .addComponent(txtClientCIID, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
+                        .addComponent(btnAddClient)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnClearClient)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExit))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(btnClearClient)
-                            .addComponent(lblErr))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cbUroomId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(15, 15, 15))
+                            .addComponent(JDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAddClient)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
-                        .addComponent(btnExit)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.CENTER)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(74, 74, 74)
+                                .addComponent(lblErr)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(txtClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtClientCIID, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(txtClientCIID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbUroomId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addComponent(lblErr)
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -129,34 +171,53 @@ public class Serve extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private boolean checkfield(){
+    private boolean checkfield() {
         if (txtClientName.getText().equals("")) {
             lblErr.setText("Client Name must not be empty");
         } else if (txtClientCIID.getText().equals("")) {
             lblErr.setText("Client CIID must not be empty");
+        } else if (JDate.getDate().toString().replace("WAT", "").equals("")) {
+            lblErr.setText("Reservation Date must not be empty");
         } else {
             return true;
         }
         return false;
     }
-    
+
     private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
-        // TODO add your handling code here:
-        if(checkfield()){
-            
-        }
+
+        Date date = new Date(
+                JDate.getDate().getYear(), JDate.getDate().getMonth(), JDate.getDate().getDay(),
+                JDate.getDate().getHours(), JDate.getDate().getMinutes(), JDate.getDate().getSeconds()
+        );
+
+        String[] data = new String[]{
+            txtClientName.getText(),
+            txtClientCIID.getText(),
+            date.toLocaleString().replace(".", "")
+        };
         
+        if (checkfield()) {
+            try {
+                DBMan.addClient(data, cbUroomId.getSelectedItem().toString());
+            } catch (SQLException ex) {
+                Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
+            }                 
+        }
+         
     }//GEN-LAST:event_btnAddClientActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        // TODO add your handling code here:
+
         dispose();
+
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnClearClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearClientActionPerformed
-        // TODO add your handling code here:
+
         txtClientCIID.setText("");
         txtClientName.setText("");
+
     }//GEN-LAST:event_btnClearClientActionPerformed
 
     /**
@@ -192,14 +253,16 @@ public class Serve extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser JDate;
     private javax.swing.JButton btnAddClient;
     private javax.swing.JButton btnClearClient;
     private javax.swing.JButton btnExit;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbUroomId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblErr;
     private javax.swing.JTextField txtClientCIID;
     private javax.swing.JTextField txtClientName;

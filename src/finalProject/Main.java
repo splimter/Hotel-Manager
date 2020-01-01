@@ -59,11 +59,12 @@ public class Main extends javax.swing.JFrame {
         }
 
         model = (DefaultTableModel) tableRooms.getModel();
-        rowdata = new Object[3];
+        rowdata = new Object[4];
         for (int i = 0; i < room.size(); i++) {
             rowdata[0] = room.get(i).id;
             rowdata[1] = room.get(i).type;
             rowdata[2] = room.get(i).clientID;
+            //rowdata[3] = room.get(i).reservationDate;
 
             model.addRow(rowdata);
         }
@@ -246,14 +247,14 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "room id", "type", "client name", "client CIID"
+                "room id", "type", "client name", "client CIID", "Resevation Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -308,7 +309,7 @@ public class Main extends javax.swing.JFrame {
         panelOverviewLayout.setVerticalGroup(
             panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOverviewLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnAddC)
                     .addComponent(btnUpdateC)

@@ -69,8 +69,8 @@ public class DBMan {
         String sqlRoom = "CREATE TABLE IF NOT EXISTS room (\n"
                 + "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + "    type TEXT NOT NULL,\n"
-                + "    clinetID INTEGER,\n"
-                + "    FOREIGN KEY(clinetID) REFERENCES client(id)"
+                + "    clientID INTEGER,\n"
+                + "    FOREIGN KEY(clientID) REFERENCES client(id)"
                 + ");";
 
         String val = "(" + sqlF("standart", 1) + "),"
@@ -83,7 +83,8 @@ public class DBMan {
         String sqlClient = "CREATE TABLE IF NOT EXISTS client (\n"
                 + "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + "    fname TEXT NOT NULL,\n"
-                + "    ciid TEXT NOT NULL\n"
+                + "    ciid TEXT NOT NULL,\n"
+                + "    reservationDate TEXT NOT NULL\n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -303,14 +304,16 @@ public class DBMan {
 
     }
     
-    public static void addClient(String fname,String ciid,int roomId) throws SQLException{
+    public static void addClient(String[] data,String roomId) throws SQLException{
+       
         Statement stmt = null;
 
-        // Add Clinet
-        String query = "insert into client (fname,ciid) values ("+sqlF(fname, 0)+sqlF(ciid, 1)+")";
-
+        // Add clientID
+        String query = "insert into client (fname,ciid,reservationDate) values ("
+                +sqlF(data[0], 0)
+                +sqlF(data[1], 0)
+                +sqlF(data[2], 1)+")";
         try {
-            
             stmt = con.createStatement();
             int rs = stmt.executeUpdate(query);
             if (rs == 0) {
@@ -327,7 +330,7 @@ public class DBMan {
         
         //Get Client ID
         int cid=0;
-        query = "select id from client where ciid=" + ciid;
+        query = "select id from client where ciid=" + data[1];
         try {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -341,7 +344,24 @@ public class DBMan {
         }
         
         //Set Client to Room
-        query = "update room clientID="+cid+" where id="+roomId;
+        query = "update room set clientID="+cid+" where id="+roomId;
+        System.out.println("q: "+query);
+        try {
+            stmt = con.createStatement();
+            int rs = stmt.executeUpdate(query);
+            if (rs == 0) {
+                System.out.println("Issue when adding user!");
+            } else {
+                 System.out.println("done updating user!");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
         
     }
 
@@ -411,17 +431,17 @@ class Emp {
         this.ciid = ciid;
         this.role = role;
     }
+    
 }
 
 class Room {
 
-    int id;
+    int id, clientID;
     String type;
-    int clientID;
-
     public Room(int id, String type, int clientID) {
         this.id = id;
         this.type = type;
         this.clientID = clientID;
     }
+    
 }
