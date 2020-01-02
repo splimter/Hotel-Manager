@@ -87,7 +87,7 @@ public class Main extends javax.swing.JFrame {
         panelAddUser.setVisible(false);
         panelOverview.setVisible(false);
         panelWelcome.setVisible(true);
-        
+
         btnAddC.setEnabled(false);
         btnUpdateC.setEnabled(false);
         btnDelC.setEnabled(false);
@@ -302,7 +302,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btnDelC.setText("release");
+        btnDelC.setText("Release");
         btnDelC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelCActionPerformed(evt);
@@ -804,13 +804,13 @@ public class Main extends javax.swing.JFrame {
         try {
             fillTableRoom();
             btnAddC.setEnabled(false);
-        btnUpdateC.setEnabled(false);
-        btnDelC.setEnabled(false);
+            btnUpdateC.setEnabled(false);
+            btnDelC.setEnabled(false);
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRefreshTableActionPerformed
-private String selectedValue;
+    private String selectedValue;
     private void btnUpdateCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCActionPerformed
         Serve.main(Integer.valueOf(selectedValue));
         System.out.println("selected: " + selectedValue);
@@ -818,13 +818,21 @@ private String selectedValue;
 
     private void tableRoomsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableRoomsMouseClicked
         selectedValue = tableRooms.getModel().getValueAt(tableRooms.getSelectedRow(), 0).toString();
-        btnAddC.setEnabled(true);
-        btnUpdateC.setEnabled(true);
-        btnDelC.setEnabled(true);
+
+        if (tableRooms.getModel().getValueAt(tableRooms.getSelectedRow(), 2)==null) {
+            btnAddC.setEnabled(true);
+            btnDelC.setEnabled(false);
+            btnUpdateC.setEnabled(false);
+        } else {
+            btnAddC.setEnabled(false);
+            btnDelC.setEnabled(true);
+            btnUpdateC.setEnabled(true);
+        }
+
     }//GEN-LAST:event_tableRoomsMouseClicked
 
     private void btnDelCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelCActionPerformed
-        Checkout.main();
+        Checkout.main(selectedValue);
     }//GEN-LAST:event_btnDelCActionPerformed
 
     /**

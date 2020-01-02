@@ -5,6 +5,19 @@
  */
 package finalProject;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.time.LocalDateTime;
+
+import java.time.format.DateTimeFormatter;
+
+import java.util.Date;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author splimter
@@ -14,9 +27,34 @@ public class Checkout extends javax.swing.JFrame {
     /**
      * Creates new form Checkout
      */
-    public Checkout() {
+    private Client client;
+
+    public Checkout(String cid) {
         initComponents();
         this.setLocationRelativeTo(null);
+        btnChkout.setEnabled(false);
+        try {
+            String _id = DBMan.getClientFromRoom(Integer.valueOf(cid));
+            client = DBMan.getClient(Integer.valueOf(_id)).get(0);
+            lblClientName.setText(client.clientName);
+            lblClientCIID.setText(client.clientCIID);
+            lblReservationDate.setText(client.reservationDate);
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            try {
+                Date res = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(client.reservationDate);
+                Date today = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dtf.format(now));
+                lblDaySpen.setText(String.valueOf((today.getTime()-res.getTime())/86400000));
+            } catch (ParseException ex) {
+                Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -35,18 +73,19 @@ public class Checkout extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnChkout = new javax.swing.JButton();
         lblClientName = new javax.swing.JLabel();
         lblClientCIID = new javax.swing.JLabel();
         lblReservationDate = new javax.swing.JLabel();
-        lblTypePrice = new javax.swing.JLabel();
         lblDaySpen = new javax.swing.JLabel();
         lblTotalPrice = new javax.swing.JLabel();
         txtAddTax = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        txtTypePrice = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Client Name:");
 
@@ -62,7 +101,12 @@ public class Checkout extends javax.swing.JFrame {
 
         jLabel7.setText("Additional Tax:");
 
-        jButton1.setText("Checkout");
+        btnChkout.setText("Checkout");
+        btnChkout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChkoutActionPerformed(evt);
+            }
+        });
 
         lblClientName.setText("$clientName");
 
@@ -70,15 +114,34 @@ public class Checkout extends javax.swing.JFrame {
 
         lblReservationDate.setText("$reservationDate");
 
-        lblTypePrice.setText("$TypePrice");
-
         lblDaySpen.setText("$DaySpen");
 
         lblTotalPrice.setText("$TotalPrice");
 
+        txtAddTax.setText("0");
+        txtAddTax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAddTaxKeyReleased(evt);
+            }
+        });
+
         jLabel14.setText("da");
 
-        jButton2.setText("Cancel");
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        txtTypePrice.setText("0");
+        txtTypePrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTypePriceKeyReleased(evt);
+            }
+        });
+
+        jLabel15.setText("da");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,9 +151,9 @@ public class Checkout extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnChkout)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnCancel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -103,15 +166,18 @@ public class Checkout extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTotalPrice)
-                            .addComponent(lblTypePrice)
                             .addComponent(lblDaySpen)
                             .addComponent(lblReservationDate)
                             .addComponent(lblClientCIID)
                             .addComponent(lblClientName)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtAddTax, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtTypePrice, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAddTax, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel14)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -139,12 +205,14 @@ public class Checkout extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblDaySpen)
                         .addGap(18, 18, 18)
-                        .addComponent(lblTypePrice)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTypePrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel6))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -154,16 +222,37 @@ public class Checkout extends javax.swing.JFrame {
                         .addComponent(lblTotalPrice)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnChkout)
+                    .addComponent(btnCancel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTypePriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTypePriceKeyReleased
+        if(!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals(""))
+            btnChkout.setEnabled(true);
+        int price = Integer.valueOf(lblDaySpen.getText())*Integer.valueOf(txtTypePrice.getText())+Integer.valueOf(txtAddTax.getText());
+        lblTotalPrice.setText(String.valueOf(price));
+    }//GEN-LAST:event_txtTypePriceKeyReleased
 
-    public static void main() {
+    private void txtAddTaxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddTaxKeyReleased
+        if(!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals(""))
+            btnChkout.setEnabled(true);
+        int price = Integer.valueOf(lblDaySpen.getText())*Integer.valueOf(txtTypePrice.getText())+Integer.valueOf(txtAddTax.getText());
+        lblTotalPrice.setText(String.valueOf(price));
+    }//GEN-LAST:event_txtAddTaxKeyReleased
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnChkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChkoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChkoutActionPerformed
+
+    public static void main(String cid) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -190,16 +279,17 @@ public class Checkout extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Checkout().setVisible(true);
+                new Checkout(cid).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnChkout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -211,7 +301,7 @@ public class Checkout extends javax.swing.JFrame {
     private javax.swing.JLabel lblDaySpen;
     private javax.swing.JLabel lblReservationDate;
     private javax.swing.JLabel lblTotalPrice;
-    private javax.swing.JLabel lblTypePrice;
     private javax.swing.JTextField txtAddTax;
+    private javax.swing.JTextField txtTypePrice;
     // End of variables declaration//GEN-END:variables
 }
