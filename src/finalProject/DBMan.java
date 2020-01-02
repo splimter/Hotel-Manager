@@ -508,6 +508,33 @@ public class DBMan {
             System.out.println(e.getMessage());
         }
     }
+    
+    public static void deleteClient(String roomID,String userID) throws SQLException{
+        
+        String sql = "UPDATE room set clientID = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            // set the corresponding param
+            pstmt.setString(1, "");
+            pstmt.setString(2, roomID);
+            // execute the delete statement
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        sql = "DELETE FROM client WHERE id = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            // set the corresponding param
+            pstmt.setString(1, userID);
+            // execute the delete statement
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
 
 class Emp {

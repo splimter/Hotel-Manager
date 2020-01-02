@@ -28,30 +28,29 @@ public class Checkout extends javax.swing.JFrame {
      * Creates new form Checkout
      */
     private Client client;
+    private String _id, cid;
 
     public Checkout(String cid) {
+        this.cid = cid;
         initComponents();
         this.setLocationRelativeTo(null);
         btnChkout.setEnabled(false);
         try {
-            String _id = DBMan.getClientFromRoom(Integer.valueOf(cid));
+            _id = DBMan.getClientFromRoom(Integer.valueOf(cid));
             client = DBMan.getClient(Integer.valueOf(_id)).get(0);
             lblClientName.setText(client.clientName);
             lblClientCIID.setText(client.clientCIID);
             lblReservationDate.setText(client.reservationDate);
-            
+
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             try {
                 Date res = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(client.reservationDate);
                 Date today = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dtf.format(now));
-                lblDaySpen.setText(String.valueOf((today.getTime()-res.getTime())/86400000));
+                lblDaySpen.setText(String.valueOf((today.getTime() - res.getTime()) / 86400000));
             } catch (ParseException ex) {
                 Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-
         } catch (SQLException ex) {
             Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -231,16 +230,22 @@ public class Checkout extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTypePriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTypePriceKeyReleased
-        if(!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals(""))
+        if (!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals("")) {
             btnChkout.setEnabled(true);
-        int price = Integer.valueOf(lblDaySpen.getText())*Integer.valueOf(txtTypePrice.getText())+Integer.valueOf(txtAddTax.getText());
+        } else {
+            btnChkout.setEnabled(false);
+        }
+        int price = Integer.valueOf(lblDaySpen.getText()) * Integer.valueOf(txtTypePrice.getText()) + Integer.valueOf(txtAddTax.getText());
         lblTotalPrice.setText(String.valueOf(price));
     }//GEN-LAST:event_txtTypePriceKeyReleased
 
     private void txtAddTaxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddTaxKeyReleased
-        if(!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals(""))
+        if (!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals("")) {
             btnChkout.setEnabled(true);
-        int price = Integer.valueOf(lblDaySpen.getText())*Integer.valueOf(txtTypePrice.getText())+Integer.valueOf(txtAddTax.getText());
+        } else {
+            btnChkout.setEnabled(false);
+        }
+        int price = Integer.valueOf(lblDaySpen.getText()) * Integer.valueOf(txtTypePrice.getText()) + Integer.valueOf(txtAddTax.getText());
         lblTotalPrice.setText(String.valueOf(price));
     }//GEN-LAST:event_txtAddTaxKeyReleased
 
@@ -249,7 +254,12 @@ public class Checkout extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnChkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChkoutActionPerformed
-        // TODO add your handling code here:
+        try {
+            DBMan.deleteClient(cid, _id);
+            dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnChkoutActionPerformed
 
     public static void main(String cid) {
