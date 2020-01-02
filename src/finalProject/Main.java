@@ -87,6 +87,10 @@ public class Main extends javax.swing.JFrame {
         panelAddUser.setVisible(false);
         panelOverview.setVisible(false);
         panelWelcome.setVisible(true);
+        
+        btnAddC.setEnabled(false);
+        btnUpdateC.setEnabled(false);
+        btnDelC.setEnabled(false);
 
         lblFName.setText(data[1]);
         System.out.println(data[2]);
@@ -95,6 +99,8 @@ public class Main extends javax.swing.JFrame {
         } else {
             btnAdminSection.setVisible(false);
         }
+
+        btnDeleteUser.setEnabled(false);
 
         fillTableEmp();
         try {
@@ -147,7 +153,7 @@ public class Main extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEmp = new javax.swing.JTable();
-        btnAddUpdateUser1 = new javax.swing.JButton();
+        btnDeleteUser = new javax.swing.JButton();
         cbUroomId = new javax.swing.JComboBox<>();
         cbUroomType = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
@@ -200,7 +206,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblFName))
             .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnAdminSection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -269,6 +275,11 @@ public class Main extends javax.swing.JFrame {
             }
         });
         tableRooms.getTableHeader().setReorderingAllowed(false);
+        tableRooms.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableRoomsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableRooms);
         if (tableRooms.getColumnModel().getColumnCount() > 0) {
             tableRooms.getColumnModel().getColumn(0).setResizable(false);
@@ -292,6 +303,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnDelC.setText("release");
+        btnDelC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelCActionPerformed(evt);
+            }
+        });
 
         btnRefreshTable.setText("Refresh");
         btnRefreshTable.addActionListener(new java.awt.event.ActionListener() {
@@ -322,7 +338,7 @@ public class Main extends javax.swing.JFrame {
         panelOverviewLayout.setVerticalGroup(
             panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOverviewLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnAddC)
                     .addComponent(btnUpdateC)
@@ -349,7 +365,7 @@ public class Main extends javax.swing.JFrame {
 
         lblErr.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btnAddUpdateUser.setText("Add User");
+        btnAddUpdateUser.setText("Add");
         btnAddUpdateUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUpdateUserActionPerformed(evt);
@@ -398,10 +414,10 @@ public class Main extends javax.swing.JFrame {
             tableEmp.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        btnAddUpdateUser1.setText("Add User");
-        btnAddUpdateUser1.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteUser.setText("Delete");
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddUpdateUser1ActionPerformed(evt);
+                btnDeleteUserActionPerformed(evt);
             }
         });
 
@@ -411,7 +427,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cbUroomType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Standart", "Lux", "Bussines", " " }));
+        cbUroomType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Standart", "Lux", "Bussines" }));
         cbUroomType.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbUroomTypeItemStateChanged(evt);
@@ -452,7 +468,7 @@ public class Main extends javax.swing.JFrame {
             panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddUserLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelAddUserLayout.createSequentialGroup()
@@ -460,12 +476,12 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblErr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddUserLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(btnAddUpdateUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(panelAddUserLayout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
                                         .addComponent(btnAddUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(panelAddUserLayout.createSequentialGroup()
                                     .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,8 +565,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(panelAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddUpdateUser)
                     .addComponent(btnClear)
-                    .addComponent(btnAddUpdateUser1))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(btnDeleteUser))
+                .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(panelAddUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2)
@@ -599,7 +615,7 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -654,16 +670,25 @@ public class Main extends javax.swing.JFrame {
         panelWelcome.setVisible(false);
     }//GEN-LAST:event_btnAdminSectionActionPerformed
 
-    private void btnAddUpdateUser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateUser1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddUpdateUser1ActionPerformed
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        try {
+            DBMan.deleteEmp(currentUser[1]);
+            fillTableEmp();
+            btnAddUpdateUser.setText("Add");
+            btnDeleteUser.setEnabled(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
 
+    String[] currentUser = new String[5];
     private void tableEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmpMouseClicked
         // TODO add your handling code here:
         idFromUserTab = tableEmp.getModel().getValueAt(tableEmp.getSelectedRow(), 0).toString();
-        String[] currentUser = new String[5];
+
         try {
             currentUser = DBMan.getEmp(Integer.valueOf(idFromUserTab));
+
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -688,11 +713,21 @@ public class Main extends javax.swing.JFrame {
         }
         txtCIID.setText(currentUser[4]);
         btnAddUpdateUser.setText("Update");
+        btnClear.setText("Cancel");
+        btnDeleteUser.setEnabled(true);
     }//GEN-LAST:event_tableEmpMouseClicked
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
+        if (btnClear.getText().equals("Cancel")) {
+            tableEmp.getSelectionModel().clearSelection();
+            btnAddUpdateUser.setText("Add");
+            btnClear.setText("Clear");
+            btnDeleteUser.setEnabled(false);
+        }
+
         clear();
+
+
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateUserActionPerformed
@@ -768,16 +803,29 @@ public class Main extends javax.swing.JFrame {
     private void btnRefreshTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTableActionPerformed
         try {
             fillTableRoom();
+            btnAddC.setEnabled(false);
+        btnUpdateC.setEnabled(false);
+        btnDelC.setEnabled(false);
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRefreshTableActionPerformed
-
+private String selectedValue;
     private void btnUpdateCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCActionPerformed
-        String value = tableRooms.getModel().getValueAt(tableRooms.getSelectedRow(), 0).toString();
-        Serve.main(Integer.valueOf(value));
-        System.out.println("selected: "+value);
+        Serve.main(Integer.valueOf(selectedValue));
+        System.out.println("selected: " + selectedValue);
     }//GEN-LAST:event_btnUpdateCActionPerformed
+
+    private void tableRoomsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableRoomsMouseClicked
+        selectedValue = tableRooms.getModel().getValueAt(tableRooms.getSelectedRow(), 0).toString();
+        btnAddC.setEnabled(true);
+        btnUpdateC.setEnabled(true);
+        btnDelC.setEnabled(true);
+    }//GEN-LAST:event_tableRoomsMouseClicked
+
+    private void btnDelCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelCActionPerformed
+        Checkout.main();
+    }//GEN-LAST:event_btnDelCActionPerformed
 
     /**
      * @param data
@@ -817,10 +865,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnAddC;
     private javax.swing.JButton btnAddRoom;
     private javax.swing.JButton btnAddUpdateUser;
-    private javax.swing.JButton btnAddUpdateUser1;
     private javax.swing.JButton btnAdminSection;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelC;
+    private javax.swing.JButton btnDeleteUser;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnRefreshTable;
     private javax.swing.JButton btnUpdateC;

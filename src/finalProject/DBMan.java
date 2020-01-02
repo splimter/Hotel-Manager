@@ -7,6 +7,7 @@ package finalProject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -179,7 +180,7 @@ public class DBMan {
         try {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            
+
             while (rs.next()) {
                 _date[0] = rs.getString("fname");
                 _date[1] = rs.getString("ciid");
@@ -195,9 +196,9 @@ public class DBMan {
         data.add(new Client(_date[0], _date[1], _date[2]));
         return data;
     }
-    
-   public static String getClientFromRoom(int id) throws SQLException{
-       Statement stmt = null;
+
+    public static String getClientFromRoom(int id) throws SQLException {
+        Statement stmt = null;
 
         String query = "select * from room where id=" + sqlF(String.valueOf(id), 1) + " ;";
 
@@ -219,8 +220,8 @@ public class DBMan {
             }
         }
         return cid;
-   }
-    
+    }
+
     public static boolean getEmp(String User)
             throws SQLException {
 
@@ -314,7 +315,7 @@ public class DBMan {
         String values = "(" + sqlF(data[0], 0) + sqlF(data[1], 0) + sqlF(data[2], 0)
                 + sqlF(data[3], 0) + sqlF(data[4], 1) + ")";
 
-        String query = "insert into emp (user,pwd,fname,role,ciid) values " + values + " ;";
+        String query = "insert into emp (fname,user,pwd,role,ciid) values " + values + " ;";
 
         try {
             stmt = con.createStatement();
@@ -450,7 +451,7 @@ public class DBMan {
     public static void updateRoom(String id, String type) throws SQLException {
         Statement stmt = null;
         String query = "update room set type=" + sqlF(type, 1) + " where id=" + sqlF(id, 1);
-        System.out.println(query);
+
         try {
             stmt = con.createStatement();
             int rs = stmt.executeUpdate(query);
@@ -466,6 +467,45 @@ public class DBMan {
             if (stmt != null) {
                 stmt.close();
             }
+        }
+    }
+
+    public static void updateClient(String id, String[] data) throws SQLException {
+        Statement stmt = null;
+        String values = "fname=" + sqlF(data[0], 0)
+                + "ciid=" + sqlF(data[1], 0)
+                + "reservationDate=" + sqlF(data[2], 1);
+        String query = "update client set " + values + " where id=" + sqlF(id, 1);
+
+        try {
+            stmt = con.createStatement();
+            int rs = stmt.executeUpdate(query);
+            if (rs == 0) {
+                System.out.println("Issue when adding user!");
+            } else {
+                System.out.println("done updating user!");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public static void deleteEmp(String user) throws SQLException {
+        String sql = "DELETE FROM emp WHERE user = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            // set the corresponding param
+            pstmt.setString(1, user);
+            // execute the delete statement
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

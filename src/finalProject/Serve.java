@@ -32,10 +32,9 @@ public class Serve extends javax.swing.JFrame {
     }
 
     private Client client;
-    private String cid;
+    private String cid="";
 
     public Serve(int id) {
-        
         initComponents();
         this.setLocationRelativeTo(null);
         fillCBID();
@@ -55,7 +54,7 @@ public class Serve extends javax.swing.JFrame {
             } catch (ParseException ex) {
                 Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            btnAddClient.setText("Update");
         }
 
     }
@@ -131,8 +130,8 @@ public class Serve extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
                         .addComponent(btnAddClient)
                         .addGap(30, 30, 30)
-                        .addComponent(btnClearClient)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClearClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
                         .addComponent(btnExit))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -213,17 +212,21 @@ public class Serve extends javax.swing.JFrame {
         );
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        sdf.format(date);
-
+        
         String[] data = new String[]{
             txtClientName.getText(),
             txtClientCIID.getText(),
-            date.toLocaleString().replace(".", "")
+            sdf.format(date)
         };
 
         if (checkfield()) {
             try {
-                DBMan.addClient(data, cbUroomId.getSelectedItem().toString());
+                if(cid.equals(""))
+                    DBMan.addClient(data, cbUroomId.getSelectedItem().toString());
+                else
+                   DBMan.updateClient(cid, data);
+                
+                dispose();
             } catch (SQLException ex) {
                 Logger.getLogger(Serve.class.getName()).log(Level.SEVERE, null, ex);
             }
