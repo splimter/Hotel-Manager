@@ -5,6 +5,7 @@
  */
 package finalProject;
 
+import com.itextpdf.text.DocumentException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ public class Checkout extends javax.swing.JFrame {
      * Creates new form Checkout
      */
     private Client client;
-    private String _id, cid;
+    private String _id, cid, type;
 
     public Checkout(String cid) {
         this.cid = cid;
@@ -36,11 +37,13 @@ public class Checkout extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         btnChkout.setEnabled(false);
         try {
+            type = DBMan.getRoomType(cid);
             _id = DBMan.getClientFromRoom(Integer.valueOf(cid));
             client = DBMan.getClient(Integer.valueOf(_id)).get(0);
             lblClientName.setText(client.clientName);
             lblClientCIID.setText(client.clientCIID);
             lblReservationDate.setText(client.reservationDate);
+            lblRoomType.setText(type);
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -83,6 +86,9 @@ public class Checkout extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         txtTypePrice = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblRoomType = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,6 +148,17 @@ public class Checkout extends javax.swing.JFrame {
 
         jLabel15.setText("da");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Room Type:");
+
+        lblRoomType.setText("$RoomType");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,7 +168,9 @@ public class Checkout extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnChkout)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
                         .addComponent(btnCancel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,9 +180,11 @@ public class Checkout extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblRoomType)
                             .addComponent(lblTotalPrice)
                             .addComponent(lblDaySpen)
                             .addComponent(lblReservationDate)
@@ -177,7 +198,7 @@ public class Checkout extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -191,6 +212,10 @@ public class Checkout extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblClientCIID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(lblRoomType))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -222,8 +247,9 @@ public class Checkout extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnChkout)
-                    .addComponent(btnCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancel)
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
         pack();
@@ -262,6 +288,21 @@ public class Checkout extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnChkoutActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            PDFMaker.clientName = lblClientName.getText();
+            PDFMaker.reservationDate = lblReservationDate.getText();
+            PDFMaker.TimeSpen = lblDaySpen.getText();
+            PDFMaker.RoomType = type;
+            PDFMaker.RoomTypePrice = txtTypePrice.getText();
+            PDFMaker.AdditionalTax = txtAddTax.getText();
+            PDFMaker.TotalPrice = lblTotalPrice.getText();
+            PDFMaker.setCheckout();
+        } catch (DocumentException ex) {
+            Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String cid) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -297,6 +338,7 @@ public class Checkout extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnChkout;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -306,10 +348,12 @@ public class Checkout extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblClientCIID;
     private javax.swing.JLabel lblClientName;
     private javax.swing.JLabel lblDaySpen;
     private javax.swing.JLabel lblReservationDate;
+    private javax.swing.JLabel lblRoomType;
     private javax.swing.JLabel lblTotalPrice;
     private javax.swing.JTextField txtAddTax;
     private javax.swing.JTextField txtTypePrice;

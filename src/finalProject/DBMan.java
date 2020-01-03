@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author splimter
  */
-public class DBMan {
+public abstract class DBMan {
 
     // db parameters
     private static String url = "jdbc:sqlite:src\\finalProject\\hotel.db";
@@ -253,6 +253,31 @@ public class DBMan {
         } else {
             return false;
         }
+    }
+    
+    public static String getRoomType(String id) throws SQLException {
+        Statement stmt = null;
+
+        String query = "select * from room where id=" + sqlF(String.valueOf(id), 1) + " ;";
+
+        String type = new String();
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                type = rs.getString("type");
+            }
+
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return type;
     }
 
     public static ArrayList<Emp> getAllEmp() throws SQLException {
