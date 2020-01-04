@@ -237,7 +237,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="btnAddC" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="btnUpdateC" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -513,6 +513,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCIID">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCIIDKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>

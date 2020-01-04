@@ -338,7 +338,7 @@ public class Main extends javax.swing.JFrame {
         panelOverviewLayout.setVerticalGroup(
             panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOverviewLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(panelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnAddC)
                     .addComponent(btnUpdateC)
@@ -352,6 +352,12 @@ public class Main extends javax.swing.JFrame {
         panelAddUser.setBackground(new java.awt.Color(51, 153, 255));
 
         cbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Client Service", "Reception", "Maintainer " }));
+
+        txtCIID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCIIDKeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("Full Name");
 
@@ -834,6 +840,15 @@ public class Main extends javax.swing.JFrame {
     private void btnDelCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelCActionPerformed
         Checkout.main(selectedValue);
     }//GEN-LAST:event_btnDelCActionPerformed
+
+    private void txtCIIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCIIDKeyReleased
+        try{
+            Integer.valueOf(txtCIID.getText());
+        } catch(Exception e) {
+            CharSequence subSequence = txtCIID.getText().subSequence(0, txtCIID.getText().length()-1);
+            txtCIID.setText(subSequence.toString());
+        }
+    }//GEN-LAST:event_txtCIIDKeyReleased
 
     /**
      * @param data

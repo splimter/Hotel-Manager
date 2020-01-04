@@ -90,6 +90,12 @@ public class Serve extends javax.swing.JFrame {
 
         jLabel3.setText("Client CIID");
 
+        txtClientCIID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtClientCIIDKeyReleased(evt);
+            }
+        });
+
         btnAddClient.setText("Add");
         btnAddClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,6 +251,15 @@ public class Serve extends javax.swing.JFrame {
         txtClientName.setText("");
 
     }//GEN-LAST:event_btnClearClientActionPerformed
+
+    private void txtClientCIIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientCIIDKeyReleased
+        try{
+            Integer.valueOf(txtClientCIID.getText());
+        } catch(Exception e) {
+            CharSequence subSequence = txtClientCIID.getText().subSequence(0, txtClientCIID.getText().length()-1);
+            txtClientCIID.setText(subSequence.toString());
+        }
+    }//GEN-LAST:event_txtClientCIIDKeyReleased
 
     public static void main(int id) {
         /* Set the Nimbus look and feel */

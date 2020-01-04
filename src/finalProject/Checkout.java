@@ -86,7 +86,7 @@ public class Checkout extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         txtTypePrice = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnPrintBill = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         lblRoomType = new javax.swing.JLabel();
 
@@ -148,10 +148,10 @@ public class Checkout extends javax.swing.JFrame {
 
         jLabel15.setText("da");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnPrintBill.setText("Print Bill");
+        btnPrintBill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnPrintBillActionPerformed(evt);
             }
         });
 
@@ -168,8 +168,8 @@ public class Checkout extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnChkout)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(btnPrintBill)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancel))
                     .addGroup(layout.createSequentialGroup()
@@ -248,7 +248,7 @@ public class Checkout extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnChkout)
                     .addComponent(btnCancel)
-                    .addComponent(jButton1))
+                    .addComponent(btnPrintBill))
                 .addContainerGap())
         );
 
@@ -256,6 +256,14 @@ public class Checkout extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTypePriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTypePriceKeyReleased
+        
+        try{
+            Integer.valueOf(txtTypePrice.getText());
+        } catch(Exception e) {
+            CharSequence subSequence = txtTypePrice.getText().subSequence(0, txtTypePrice.getText().length()-1);
+            txtAddTax.setText(subSequence.toString());
+        }
+        
         if (!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals("")) {
             btnChkout.setEnabled(true);
         } else {
@@ -266,6 +274,14 @@ public class Checkout extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTypePriceKeyReleased
 
     private void txtAddTaxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddTaxKeyReleased
+        
+        try{
+            Integer.valueOf(txtAddTax.getText());
+        } catch(Exception e) {
+            CharSequence subSequence = txtAddTax.getText().subSequence(0, txtAddTax.getText().length()-1);
+            txtAddTax.setText(subSequence.toString());
+        }
+        
         if (!txtTypePrice.getText().equals("") && !txtAddTax.getText().equals("")) {
             btnChkout.setEnabled(true);
         } else {
@@ -288,7 +304,7 @@ public class Checkout extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnChkoutActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPrintBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintBillActionPerformed
         try {
             PDFMaker.clientName = lblClientName.getText();
             PDFMaker.reservationDate = lblReservationDate.getText();
@@ -301,7 +317,7 @@ public class Checkout extends javax.swing.JFrame {
         } catch (DocumentException ex) {
             Logger.getLogger(Checkout.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPrintBillActionPerformed
 
     public static void main(String cid) {
         /* Set the Nimbus look and feel */
@@ -338,7 +354,7 @@ public class Checkout extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnChkout;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnPrintBill;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
